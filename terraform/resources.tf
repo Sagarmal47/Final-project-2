@@ -1,16 +1,16 @@
 resource "aws_vpc" "main" {
-cidr_block = var.cidr_vpc_block
+cidr_block = var.aws_vpc_var
 tags = {
-    Name = var.cidr_tag_name
+    Name = "Test"
 }
 }
 
 resource "aws_subnet" "public" {
    
 vpc_id = aws_vpc.main.id
-cidr_block = var.cidr_block_subnet 
+cidr_block = var.aws_subnet_var 
 tags = {
-  Name = var.subnet_tag_name
+  Name = "subnet_tag_name"
 
 }
 }
