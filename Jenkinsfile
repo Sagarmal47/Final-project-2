@@ -10,7 +10,7 @@ pipeline {
         stage("Git Checkout ") {
             steps {
                 sh '''
-                if [ -d Final-project-2 ]; then 
+                if [ -d Final-project-2 ]; then
                   echo "Folder Already Present No need to checkout"
                 else
                   git clone ${env.git_url}
@@ -19,20 +19,18 @@ pipeline {
             }
         }
         stage("Terraform Infra Build") {
-        steps {
-            dir("terraform/") {
-                sh "terraform init"
-                sh "terraform apply --auto-approve"
+            steps {
+                dir("terraform/") {
+                    sh "terraform init"
+                    sh "terraform apply --auto-approve"
+                }
+            }
+        }
+        stage("Terraform Destroy") {
+            steps {
+                dir("terraform")
+                sh "terraform destroy --auto-approve"
             }
         }
     }
-    stage("Terraform Destroy"){
-           steps{
-              dir("terraform")
-               sh "terraform destroy --auto-approve"
-               }
-
-    }
-    
 }
-
