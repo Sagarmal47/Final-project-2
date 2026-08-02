@@ -9,7 +9,13 @@ pipeline {
     stages {
         stage("Git Checkout ") {
             steps {
-                sh "git clone ${env.git_url}"
+                sh '''
+                if [ -d Final-project-2 ]; then 
+                  echo "Folder Already Present No need to checkout"
+                else
+                  git clone ${env.git_url}
+                fi
+                '''
             }
         }
         stage("Terraform Infra Build") {
