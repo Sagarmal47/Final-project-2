@@ -28,7 +28,7 @@ pipeline {
         }
         stage("Terraform Destroy") {
             steps {
-                sh "pwd && ll "
+                sh "pwd && ls -lrth "
                 dir("terraform")
                 sh "terraform destroy --auto-approve"
             }
