@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage("Git Checkout ") {
             steps {
-                sh "git clone ${var.git_url}"
+                sh "git clone ${env.git_url}"
             }
         }
         stage("Terraform Infra Build") {
