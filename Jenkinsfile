@@ -2,8 +2,8 @@ pipeline {
     agent any
     environment {
         git_url = "https://github.com/Sagarmal47/Final-project-2.git"
-        AWS_ACCESS_KEY_ID = credentials('access')
-        AWS_SECRET_ACCESS_KEY = credentials('secret')
+        AWS_ACCESS_KEY_ID = credentials('aws_key')
+        AWS_SECRET_ACCESS_KEY = credentials('aws_secret')
         AWS_DEFAULT_REGION = 'ap-south-1'
     }
     stages {
