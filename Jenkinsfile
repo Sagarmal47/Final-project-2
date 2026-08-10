@@ -40,6 +40,7 @@ pipeline {
                         if (userChoice == 'Destroy') {
                             echo 'User selected Destroy. Executing teardown...'
                             sh 'terraform destroy -auto-approve'
+                            
                         } else {
                             echo 'User selected Skip. Preserving infrastructure.'
                         }
@@ -60,6 +61,7 @@ pipeline {
               steps{
                  sh '''
 INSTANCE_ID=$(terraform output -raw instance_id)
+             echo $INSTANCE_ID
                       
                       aws ssm send-command \
     --instance-ids "$INSTANCE_ID" \
