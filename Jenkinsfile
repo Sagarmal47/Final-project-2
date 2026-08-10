@@ -10,13 +10,13 @@ pipeline {
         stage("Git Checkout ") {
             steps {
                 
-                sh '''
-                if [ -d Final-project-2 ]; then
+                sh """
+                if [ -d "Final-project-2" ]; then
                   echo "Folder Already Present No need to checkout"
                 else
                   git clone ${env.git_url}
                 fi
-                '''
+                """
             }
         }
         
