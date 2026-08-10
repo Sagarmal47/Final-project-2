@@ -82,7 +82,7 @@ resource "aws_iam_role_policy_attachment" "ssm_policy" {
 
 # 8. Instance Profile
 resource "aws_iam_instance_profile" "ssm_profile" {
-  name = "ec2_ssm_profile"
+  name_prefix = "ec2_ssm_profile"
   role = aws_iam_role.ssm_role.name
 }
 
