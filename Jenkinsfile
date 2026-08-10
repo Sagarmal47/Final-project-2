@@ -19,7 +19,7 @@ pipeline {
                 '''
             }
         }
-        /*
+        
         stage("Terraform Infra Build") {
             steps {
                 dir("terraform/") {
@@ -28,7 +28,7 @@ pipeline {
                 }
             }
         }
-        */
+        /*
         
         stage("Terraform Destroy") {
             steps {
@@ -38,7 +38,7 @@ pipeline {
                 }
             }
         }
-        
+        */
         stage("Install Docker and other dependencies"){
               steps{
                  sh '''
