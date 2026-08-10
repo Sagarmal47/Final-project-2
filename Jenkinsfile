@@ -20,14 +20,6 @@ pipeline {
             }
         }
         
-        stage("Terraform Infra Build") {
-            steps {
-                dir("terraform/") {
-                    sh "terraform init"
-                    sh "terraform apply --auto-approve"
-                }
-            }
-        }
         stage('Confirm Teardown') {
             steps {
                 script {
