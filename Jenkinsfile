@@ -27,6 +27,7 @@ pipeline {
                 }
             }
         }
+        /*
         stage("Terraform Destroy") {
             steps {
                 sh "pwd && ls -lrth "
@@ -35,5 +36,32 @@ pipeline {
                 }
             }
         }
+        */
+        stage("Install Docker and other dependencies"){
+              steps{
+                 sh '''
+INSTANCE_ID=$(terraform output -raw instance_id)
+                      
+                      aws ssm send-command \
+    --instance-ids "$INSTANCE_ID" \
+    --document-name "AWS-RunShellScript" \
+    --parameters 'commands=[
+        "sudo apt update",
+        "sudo apt install -y ca-certificates curl",
+        "sudo install -m 0755 -d /etc/apt/keyrings",
+        "sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc",
+        "sudo chmod a+r /etc/apt/keyrings/docker.asc",
+        "echo \"Types: deb\nURIs: https://download.docker.com/linux/ubuntu\nSuites: \$(. /etc/os-release && echo \"\${UBUNTU_CODENAME:-\$VERSION_CODENAME}\")\nComponents: stable\nArchitectures: \$(dpkg --print-architecture)\nSigned-By: /etc/apt/keyrings/docker.asc\" | sudo tee /etc/apt/sources.list.d/docker.sources",
+        "sudo apt update",
+        "sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin",
+        "sudo systemctl status docker","
+        "sudo systemctl start docker"
+ 
+    ]'
+                   aws ssm scp --target $INSTANCE_ID src=./Dockerfile dst=~/
+                    '''
+
+                   }
+       }
     }
 }
