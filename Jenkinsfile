@@ -28,17 +28,42 @@ pipeline {
                 }
             }
         }
-        /*
-        
-        stage("Terraform Destroy") {
+        stage('Confirm Teardown') {
             steps {
-                sh "pwd && ls -lrth "
-                dir("terraform/"){
-                sh "terraform destroy --auto-approve"
+                script {
+                    timeout(time: 10, unit: 'MINUTES') {
+                        def userChoice = input(
+                            id: 'DestroyPrompt',
+                            message: 'Select action for infrastructure:',
+                            ok: 'Submit',
+                            parameters: [
+                                choice(
+                                    name: 'ACTION', 
+                                    choices: ['Skip', 'Destroy'], 
+                                    description: 'Choose whether to tear down resources or keep them running.'
+                                )
+                            ]
+                        )
+
+                        if (userChoice == 'Destroy') {
+                            echo 'User selected Destroy. Executing teardown...'
+                            sh 'terraform destroy -auto-approve'
+                        } else {
+                            echo 'User selected Skip. Preserving infrastructure.'
+                        }
+                    }
                 }
             }
         }
-        */
+       stage("Deploy Terraform") {
+                   steps{
+                            dir("terraform/"){
+                                         sh "terraform init"
+                                         sh "terraform apply --auto-approve"
+}
+}
+
+}
         stage("Install Docker and other dependencies"){
               steps{
                  sh '''
